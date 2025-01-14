@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\TransactionStatus;
+use App\Enum\TransactionType;
 use App\Repository\TransactionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,37 +16,37 @@ class Transaction
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    #[ORM\Column(type: 'string', enumType: 'TransactionType')]
+    private TransactionType $type;
 
     #[ORM\Column]
     private ?int $amount = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    #[ORM\Column(type: 'string', enumType: 'TransactionStatus')]
+    private TransactionStatus $status;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_time = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions_issued')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $source_account = null;
+    #[ORM\JoinColumn]
+    private ?BankAccount $source_account = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions_received')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $destination_account = null;
+    #[ORM\JoinColumn]
+    private ?BankAccount $destination_account = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getType(): ?TransactionType
     {
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType( TransactionType  $type): static
     {
         $this->type = $type;
 
@@ -63,12 +65,12 @@ class Transaction
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?TransactionStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(TransactionStatus $status): static
     {
         $this->status = $status;
 
@@ -87,24 +89,24 @@ class Transaction
         return $this;
     }
 
-    public function getSourceAccount(): ?user
+    public function getSourceAccount(): ?BankAccount
     {
         return $this->source_account;
     }
 
-    public function setSourceAccount(?user $source_account): static
+    public function setSourceAccount(?BankAccount $source_account): static
     {
         $this->source_account = $source_account;
 
         return $this;
     }
 
-    public function getDestinationAccount(): ?user
+    public function getDestinationAccount(): ?BankAccount
     {
         return $this->destination_account;
     }
 
-    public function setDestinationAccount(?user $destination_account): static
+    public function setDestinationAccount(?BankAccount $destination_account): static
     {
         $this->destination_account = $destination_account;
 

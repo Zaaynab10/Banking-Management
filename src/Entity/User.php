@@ -22,6 +22,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
+    #[ORM\Column]
+    private ?string $phone = null;
+
     /**
      * @var list<string> The user roles
      */
@@ -40,23 +43,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: BankAccount::class, mappedBy: 'owner')]
     private Collection $bankAccounts;
 
-    /**
-     * @var Collection<int, Transaction>
-     */
-    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'compte_source')]
-    private Collection $transactions_issued;
-
-    /**
-     * @var Collection<int, Transaction>
-     */
-    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'destination_account')]
-    private Collection $transactions_received;
 
     public function __construct()
     {
         $this->bankAccounts = new ArrayCollection();
-        $this->transactions_issued = new ArrayCollection();
-        $this->transactions_received = new ArrayCollection();
+    }
+
+    public function getPhone(): ?string {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): void {
+        $this->phone = $phone;
     }
 
     public function getId(): ?int
@@ -157,66 +155,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($bankAccount->getOwner() === $this) {
                 $bankAccount->setOwner(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Transaction>
-     */
-    public function getTransactionsIssued(): Collection
-    {
-        return $this->transactions_issued;
-    }
-
-    public function addTransactionsIssued(Transaction $transactionsIssued): static
-    {
-        if (!$this->transactions_issued->contains($transactionsIssued)) {
-            $this->transactions_issued->add($transactionsIssued);
-            $transactionsIssued->setSourceAccount($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransactionsIssued(Transaction $transactionsIssued): static
-    {
-        if ($this->transactions_issued->removeElement($transactionsIssued)) {
-            // set the owning side to null (unless already changed)
-            if ($transactionsIssued->getSourceAccount() === $this) {
-                $transactionsIssued->setSourceAccount(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Transaction>
-     */
-    public function getTransactionsReceived(): Collection
-    {
-        return $this->transactions_received;
-    }
-
-    public function addTransactionsReceived(Transaction $transactionsReceived): static
-    {
-        if (!$this->transactions_received->contains($transactionsReceived)) {
-            $this->transactions_received->add($transactionsReceived);
-            $transactionsReceived->setDestinationAccount($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransactionsReceived(Transaction $transactionsReceived): static
-    {
-        if ($this->transactions_received->removeElement($transactionsReceived)) {
-            // set the owning side to null (unless already changed)
-            if ($transactionsReceived->getDestinationAccount() === $this) {
-                $transactionsReceived->setDestinationAccount(null);
             }
         }
 
