@@ -1,37 +1,73 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in!
+{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+	<div
+		class="login-page">
+		<!-- Video Background -->
+		<video autoplay loop muted playsinline class="background-video">
+			<source src="{{ asset('videos/background.mp4') }}" type="video/mp4">
+			Your browser does not support the video tag.
+		</video>
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+		<!-- Logo -->
+		<div class="logo">
+			<img src="{{ asset('Images/logo.png') }}" alt="Bank Logo">
+		</div>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+		<!-- Title -->
+		<h1 class="welcome-title">Welcome</h1>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+		<!-- Form -->
+		<form method="post" class="login-form">
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
-    </div>
+			{% if app.user %}
+				<div class="mb-3">
+					You are logged in as
+					{{ app.user.userIdentifier }},
+					<a href="{{ path('app_logout') }}">Logout</a>
+				</div>
+			{% endif %}
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+			<div class="form-group">
+				<label for="inputEmail">Email</label>
+				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword">Password</label>
+				<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+			</div>
+
+			<input
+			type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+			<!-- Remember me -->
+			<div class="checkbox mb-3">
+				<label>
+					<input type="checkbox" name="_remember_me">
+					Remember me
+				</label>
+			</div>
+
+			<!-- Submit Button -->
+			<button class="btn btn-green" type="submit">Sign in</button>
+
+			<!-- Google Login Placeholder -->
+			<div class="google-login-placeholder">
+				<p>Google login (not functional yet)</p>
+			</div>
+		</form>
+
+		<!-- Footer Links -->
+		<div class="footer-links">
+			<a href="#">Terms of Use</a>
+			|
+			<a href="#">Privacy Policy</a>
+		</div>
+	</div>
 {% endblock %}
