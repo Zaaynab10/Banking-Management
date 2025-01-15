@@ -1,0 +1,33 @@
+[33mcommit d5fc5f1af325feee54a3fcb94e412b8c45ea9891[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Merge: fe1179f 4a6bf0d
+Author: Eliott Cressiaux <43609106+Elioott@users.noreply.github.com>
+Date:   Tue Jan 14 16:32:34 2025 +0100
+
+    Merge remote-tracking branch 'origin/main'
+    
+    # Conflicts:
+    #       src/Entity/Transaction.php
+
+[33mcommit fe1179f0e6ee51915f5a1a06397d43ffcb09e10c[m
+Author: Eliott Cressiaux <43609106+Elioott@users.noreply.github.com>
+Date:   Tue Jan 14 16:23:05 2025 +0100
+
+    correction of transaction, bankaccount and user entities. creation of a transactionstatuts enum
+
+[33mcommit 4a6bf0d4c8f4d72df1b83f402db5c5794184e7cf[m
+Author: Eliott Cressiaux <43609106+Elioott@users.noreply.github.com>
+Date:   Tue Jan 14 16:23:05 2025 +0100
+
+    correction of transaction, bankaccount and user entities. creation of a transactionstatuts enum
+
+[33mcommit 48330932ea74f10e1e8b5f2f3fa362bd350729fe[m
+Author: Eliott Cressiaux <43609106+Elioott@users.noreply.github.com>
+Date:   Tue Jan 14 15:12:16 2025 +0100
+
+    Init Symphony project and creation of entities
+
+[33mcommit 00bc53778a72eb4c72fa3e7fe280f729ddadf602[m
+Author: Zaaynab10 <116828252+Zaaynab10@users.noreply.github.com>
+Date:   Tue Jan 14 12:42:30 2025 +0100
+
+    Initial commit
