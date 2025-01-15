@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use App\Enum\BankAccountType;
 use App\Repository\BankAccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: BankAccountRepository::class)]
 class BankAccount
@@ -17,8 +19,10 @@ class BankAccount
 
     #[ORM\ManyToOne(inversedBy: 'bankAccounts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $owner = null;
+    private ?User $owner = null;
 
+    #[ORM\Column(type: 'string', enumType: BankAccountType::class)]
+    private BankAccountType $type;
     /**
      * @var Collection<int, Transaction>
      */
@@ -36,17 +40,25 @@ class BankAccount
         $this->transactions_received = new ArrayCollection();
     }
 
+    public function getType(): BankAccountType {
+        return $this->type;
+    }
+
+    public function setType(BankAccountType $type): void {
+        $this->type = $type;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOwner(): ?user
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(?user $owner): static
+    public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
 

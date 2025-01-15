@@ -16,6 +16,25 @@ class TransactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Transaction::class);
     }
 
+    public function getBalanceByAccount(int $accountId): float
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $qb->select('
+            SUM(CASE 
+                WHEN t.destination_account = :compteId THEN t.amount
+                ELSE 0
+            END) - 
+            SUM(CASE 
+                WHEN t.source_account = :compteId THEN t.amount
+                ELSE 0
+            END) as solde
+        ')
+            ->setParameter('compteId', $accountId);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
 //    /**
 //     * @return Transaction[] Returns an array of Transaction objects
 //     */
